@@ -1,0 +1,17 @@
+{{- $namespace := env "NAMESPACE" -}}
+{{- $namespaceKey := (print "deployment_registry/" $namespace) -}}
+{{- range $applicationName, $variants := tree $namespaceKey | byKey }}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ $applicationName }}
+spec:
+  host: {{ print $applicationName "." $namespace ".svc.cluster.local"  }}
+  subsets:
+{{- range $variants := $variants }}
+  - name: {{ .Key }}
+    labels:
+      version: {{ .Key }}
+{{- end }}
+---
+{{- end }}

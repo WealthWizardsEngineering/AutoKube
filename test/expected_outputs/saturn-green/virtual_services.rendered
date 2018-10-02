@@ -1,0 +1,79 @@
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: fact-find-service
+spec:
+  gateways:
+  - mesh
+  - default-gateway
+  hosts:
+  - fact-find-service
+  - fact-find-service.saturn-green.svc.cluster.local
+  - saturn-green.wealthwizards.io
+  http:
+  - match:
+    - uri:
+        regex: '^/fact-find-service(/.*)?$'
+    route:
+    - destination:
+        host: fact-find-service.saturn-green.svc.cluster.local
+        subset: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: fact-find-ui
+spec:
+  gateways:
+  - mesh
+  - default-gateway
+  hosts:
+  - fact-find-ui
+  - fact-find-ui.saturn-green.svc.cluster.local
+  - saturn-green.wealthwizards.io
+  http:
+  - match:
+    - uri:
+        regex: '^/fact-find(/.*)?$'
+      headers:
+        x-variant-id:
+          exact: OPS-3353
+    route:
+    - destination:
+        host: fact-find-ui.saturn-green.svc.cluster.local
+        subset: OPS-3353
+  - match:
+    - uri:
+        regex: '^/fact-find(/.*)?$'
+    route:
+    - destination:
+        host: fact-find-ui.saturn-green.svc.cluster.local
+        subset: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: income-tax-service
+spec:
+  gateways:
+  - mesh
+  - default-gateway
+  hosts:
+  - income-tax-service
+  - income-tax-service.saturn-green.svc.cluster.local
+  - income-tax-service.st.wealthwizards.io
+  http:
+  - match
+    - headers:
+        x-variant-id:
+          exact: OPS-335
+    route:
+    - destination:
+        host: income-tax-service.saturn-green.svc.cluster.local
+        subset: OPS-335
+  - route:
+    - destination:
+        host: income-tax-service.saturn-green.svc.cluster.local
+        subset: master
+---

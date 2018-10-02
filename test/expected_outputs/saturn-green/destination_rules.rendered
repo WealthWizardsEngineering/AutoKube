@@ -1,0 +1,51 @@
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: default-k8s-backend
+spec:
+  host: default-k8s-backend.saturn-green.svc.cluster.local
+  subsets:
+  - name: master
+    labels:
+      version: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: fact-find-service
+spec:
+  host: fact-find-service.saturn-green.svc.cluster.local
+  subsets:
+  - name: master
+    labels:
+      version: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: fact-find-ui
+spec:
+  host: fact-find-ui.saturn-green.svc.cluster.local
+  subsets:
+  - name: OPS-3353
+    labels:
+      version: OPS-3353
+  - name: master
+    labels:
+      version: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: income-tax-service
+spec:
+  host: income-tax-service.saturn-green.svc.cluster.local
+  subsets:
+  - name: OPS-335
+    labels:
+      version: OPS-335
+  - name: master
+    labels:
+      version: master
+---

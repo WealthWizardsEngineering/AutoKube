@@ -1,0 +1,232 @@
+[
+  {
+    "key": "app_config_vars/global/config.json/saturn-green-proof02/DOMAIN",
+    "flags": 0,
+    "value": "c2F0dXJuLWdyZWVuLndlYWx0aHdpemFyZHMuaW8="
+  },
+  {
+    "key": "app_config_vars/global/config.json/saturn-green-proof02/ENVIRONMENT",
+    "flags": 0,
+    "value": "c2F0dXJuLWdyZWVu"
+  },
+  {
+    "key": "app_config_vars/global/config.json/saturn-green-proof02/NAMESPACE",
+    "flags": 0,
+    "value": "c2F0dXJuLWdyZWVu"
+  },
+  {
+    "key": "app_config_vars/saturn/income-tax-service.json/saturn-green/ConfigMap/CONTEXT_ROUTE",
+    "flags": 0,
+    "value": "Lw=="
+  },
+  {
+    "key": "app_config_vars/saturn/income-tax-service.json/saturn-green/hostname",
+    "flags": 0,
+    "value": "aW5jb21lLXRheC1zZXJ2aWNlLnN0LndlYWx0aHdpemFyZHMuaW8="
+  },
+  {
+    "key": "app_config_vars/saturn/default-k8s-backend.json/create_ingress",
+    "flags": 0,
+    "value": "ZmFsc2U="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-service.json/saturn-green/ConfigMap/CONTEXT_ROUTE",
+    "flags": 0,
+    "value": "L2ZhY3QtZmluZC1zZXJ2aWNl"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-service.json/saturn-green/whitelist",
+    "flags": 0,
+    "value": "T0ZGSUNFUyxQUk9PRixBTVNfVEVTVCxBTVNfUFJPRCxKRU5LSU5TLFBMQVRGT1JN"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-service.json/tags",
+    "flags": 0,
+    "value": "amFydmlzLHNtYXJ0LHZpc2lvbixsdix3dyxtaW5lcnZhLGF0aGVuYSxkYi10cmFuc2Zlcg=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-service.json/tier",
+    "flags": 0,
+    "value": "c3RvcmU="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/description",
+    "flags": 0,
+    "value": "UHJvdmlkZXMgYSBNT05PIHJlcG8gZm9yIGJ1aWxkaW5nIFVJcyBmb3IgYWNjZXNzaW5nIHRoZSBmYWN0LWZpbmQgZGF0YSBzdG9yZWQgZm9yIGEgY2xpZW50"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/A2RISK_SVC_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly9hcHBzLmdyZWVuLndlYWx0aHdpemFyZHMuaW8vcmlzay1wcm9maWxl"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/AMS_HEALTH_QUESTIONNAIRE_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly93d2hlYWx0aGZvcm0uYW1zdWF0LmNvLnVrLw=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/ATR_PROVIDER",
+    "flags": 0,
+    "value": "ZXZhbHVl"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/AUTH_SVC_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly9zYXR1cm4tZ3JlZW4ud2VhbHRod2l6YXJkcy5pby9hdXRoLXNlcnZpY2U="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/CONTEXT_ROUTE",
+    "flags": 0,
+    "value": "L2ZhY3QtZmluZA=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/ETFC_SVC_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly9hcHBzLmdyZWVuLndlYWx0aHdpemFyZHMuaW8vZXRmYy1zZXJ2aWNl"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/FACT_FIND_SVC_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly9zYXR1cm4tZ3JlZW4ud2VhbHRod2l6YXJkcy5pby9mYWN0LWZpbmQtc2VydmljZQ=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/FEATURE_FLAG_IO_INTEGRATION_ENABLED",
+    "flags": 0,
+    "value": "MA=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/FEEDBACK_LINK_TEXT",
+    "flags": 0,
+    "value": "VXNlciBodWI="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/FEEDBACK_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly93ZWFsdGh3aXphcmRzZW5naW4ud2l4c2l0ZS5jb20vd3dwcm9kdWN0"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/FF_ACTIVE_PRODUCTS_QUERY_PARAM",
+    "flags": 0,
+    "value": "YWN0aXZlX3Byb2R1Y3RzPXJwcA=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/LOGIN_ROUTE",
+    "flags": 0,
+    "value": "L2FkdmlzZXIvbG9naW4="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/MANUAL_ATR_SCORE_ENTRY_ENABLED",
+    "flags": 0,
+    "value": "MQ=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/NAS_ENABLED",
+    "flags": 0,
+    "value": "MA=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/PROJECT_KEY",
+    "flags": 0,
+    "value": "c21hcnQ="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/SOLUTION_SUMMARY_SVC_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly8kKEZRRE4pL3NvbHV0aW9uLXN1bW1hcnk="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/SOLUTION_SVC_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly9zYXR1cm4tZ3JlZW4ud2VhbHRod2l6YXJkcy5pby9zb2x1dGlvbi1zdG9yZQ=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/STATE_PENSION_DATE_SVC_URL",
+    "flags": 0,
+    "value": "aHR0cHM6Ly9zdGF0ZS1wZW5zaW9uLWRhdGUuc3Qud2VhbHRod2l6YXJkcy5pbw=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/istio-enabled",
+    "flags": 0,
+    "value": "dHJ1ZQ=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/secrets/A2RISK_SVC_API_KEY",
+    "flags": 0,
+    "value": "c2VjcmV0L2dyZWVuL3Jpc2stcHJvZmlsZS9BUElfS0VZ"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/secrets/ETFC_SVC_API_KEY",
+    "flags": 0,
+    "value": "c2VjcmV0L2dyZWVuL2V0ZmMtc2VydmljZS9BUElfS0VZ"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/secrets/GTM_AUTH",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/secrets/JWT_PUBLIC_KEY",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/secrets/POSTCODE_ANYWHERE_KEY",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/version",
+    "flags": 0,
+    "value": "bGF0ZXN0"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/whitelist",
+    "flags": 0,
+    "value": "T0ZGSUNFUyxQUk9PRixKRU5LSU5TLFBMQVRGT1JN"
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/tags",
+    "flags": 0,
+    "value": "amFydmlzLHNtYXJ0LHZpc2lvbixsdix3dyxtaW5lcnZhLHNhdHVybg=="
+  },
+  {
+    "key": "app_config_vars/saturn/fact-find-ui.json/tier",
+    "flags": 0,
+    "value": "dWk="
+  },
+  {
+    "key": "deployment_registry/saturn-green/default-k8s-backend/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/saturn-green/default-k8s-backend/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/saturn-green/income-tax-service/OPS-335",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/saturn-green/income-tax-service/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/saturn-green/fact-find-ui/OPS-3353",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/saturn-green/fact-find-ui/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/saturn-green/fact-find-service/master",
+    "flags": 0,
+    "value": ""
+  }
+]

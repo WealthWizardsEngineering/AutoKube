@@ -1,0 +1,42 @@
+version: "3"
+services:
+
+  consul:
+    expose:
+      - "8500"
+    image: consul
+
+  init:
+    command: consul kv import @/usr/test/data/consul.json
+    depends_on:
+      - consul
+    environment:
+      - CONSUL_HTTP_ADDR=http://consul:8500
+    image: consul
+    volumes:
+      - ".:/usr/test"
+
+  test:
+    build: ../
+    command: /usr/test/test.sh
+    environment:
+      - CONSUL_HTTP_ADDR=http://consul:8500
+      - NAMESPACE=${NAMESPACE}
+    depends_on:
+      - consul
+      - init
+    volumes:
+      - "../src:/consul-template"
+      - ".:/usr/test"
+
+  test-consul:
+    image: consul
+    volumes:
+      - "../src:/consul-template"
+      - ".:/usr/test"
+    environment:
+      - CONSUL_HTTP_ADDR=http://consul:8500
+    command: /usr/test/test.sh
+    depends_on:
+      - consul
+      - init
