@@ -1,15 +1,12 @@
 version: 2
 jobs:
   test:
-    docker:
-      - image: alpine
-    working_directory: /usr/src
+    machine: true
     steps:
-      - add_ssh_keys
       - checkout
       - run:
           name: tests
-          command: echo "test"
+          command: make test
   buildAndDeploy:
     machine: true
     steps:
