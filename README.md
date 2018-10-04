@@ -2,7 +2,20 @@
 
 Automatically apply configuration based on deployments.
 
-This project uses [consul-template](https://github.com/hashicorp/consul-template) to generate configuration and invoke the Kubernetes update.
+This project uses [consul-template](https://github.com/hashicorp/consul-template) to generate configuration and invoke
+the Kubernetes update.
+
+AutoKube talks to consul, ideally this will be a local agent.
+
+AutoKube talks to the Kubernetes API server via kubectl using basic username/password authentication.
+
+* CONSUL_HTTP_ADDR (optional)
+* CONSUL_HTTP_TOKEN
+* NAMESPACE
+* KUBERNETES_API - e.g. https://api.my-custer
+* KUBERNETES_USERNAME
+* KUBERNETES_PASSWORD
+* KUBERNETES_CERT - the API certificate to ensure secure communication
 
 ## Testing
 

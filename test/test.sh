@@ -18,6 +18,8 @@ function assertEquals()
 function runTestsFor()
 {
     export NAMESPACE=$1
+    export KUBERNETES_USERNAME=test
+    export KUBERNETES_PASSWORD=mypassword
     RESULT=0
 
     echo "Running tests for: ${NAMESPACE}"
@@ -27,6 +29,7 @@ function runTestsFor()
     consul-template -config "config/consul_config.hcl" -once
 
     assertEquals "Expected destination rules to be correct" /usr/test/expected_outputs/${NAMESPACE}/destination_rules.rendered /consul-template/output/destination_rules.yaml || RESULT=1
+    assertEquals "Expected kubeconfig to be correct" /usr/test/expected_outputs/${NAMESPACE}/kubeconfig.rendered /consul-template/output/kubeconfig || RESULT=1
     assertEquals "Expected virtual services to be correct" /usr/test/expected_outputs/${NAMESPACE}/virtual_services.rendered /consul-template/output/virtual_services.yaml || RESULT=1
 
     return ${RESULT}

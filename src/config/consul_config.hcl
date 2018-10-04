@@ -12,6 +12,11 @@ template {
 }
 
 template {
+  source = "templates/kubeconfig.ctmpl"
+  destination = "output/kubeconfig"
+}
+
+template {
   source = "templates/virtual_services.ctmpl"
   destination = "output/virtual_services.yaml"
   command = "./apply-changes.sh output/virtual_services.yaml"

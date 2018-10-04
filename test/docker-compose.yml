@@ -17,6 +17,7 @@ services:
       - ".:/usr/test"
 
   test:
+    build: ..
     command: /usr/test/test.sh
     environment:
       - CONSUL_HTTP_ADDR=http://consul:8500
@@ -24,7 +25,6 @@ services:
     depends_on:
       - consul
       - init
-    image: hashicorp/consul-template:alpine
     volumes:
       - "../src:/consul-template"
       - ".:/usr/test"
