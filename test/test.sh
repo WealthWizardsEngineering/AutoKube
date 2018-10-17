@@ -17,20 +17,21 @@ function assertEquals()
 
 function runTestsFor()
 {
-    export NAMESPACE=$1
+    export CONTEXT=$1
     export KUBERNETES_USERNAME=test
     export KUBERNETES_PASSWORD=mypassword
+    export KUBERNETES_API=https://my-api-server
     RESULT=0
 
-    echo "Running tests for: ${NAMESPACE}"
+    echo "Running tests for: ${CONTEXT}"
 
     rm -rf /consul-template/output
 
     consul-template -config "config/consul_config.hcl" -once
 
-    assertEquals "Expected destination rules to be correct" /usr/test/expected_outputs/${NAMESPACE}/destination_rules.rendered /consul-template/output/destination_rules.yaml || RESULT=1
-    assertEquals "Expected kubeconfig to be correct" /usr/test/expected_outputs/${NAMESPACE}/kubeconfig.rendered /consul-template/output/kubeconfig || RESULT=1
-    assertEquals "Expected virtual services to be correct" /usr/test/expected_outputs/${NAMESPACE}/virtual_services.rendered /consul-template/output/virtual_services.yaml || RESULT=1
+    assertEquals "Expected destination rules to be correct" /usr/test/expected_outputs/${CONTEXT}/destination_rules.rendered /consul-template/output/destination_rules.yaml || RESULT=1
+    assertEquals "Expected kubeconfig to be correct" /usr/test/expected_outputs/${CONTEXT}/kubeconfig.rendered /consul-template/output/kubeconfig || RESULT=1
+    assertEquals "Expected virtual services to be correct" /usr/test/expected_outputs/${CONTEXT}/virtual_services.rendered /consul-template/output/virtual_services.yaml || RESULT=1
 
     return ${RESULT}
 }
@@ -40,7 +41,9 @@ RESULT=0
 echo "Waiting for test data to load..."
 sleep 5
 
-runTestsFor "saturn-green" || RESULT=1
+runTestsFor "saturn-green-proof02" || RESULT=1
+
+runTestsFor "green-proof02" || RESULT=1
 
 if [[ "$RESULT" -gt 0 ]]; then
   echo "There were test failures, inspect the details above for details"

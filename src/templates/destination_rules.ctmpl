@@ -1,4 +1,5 @@
-{{- $namespace := env "NAMESPACE" -}}
+{{- $context      := env "CONTEXT" -}}
+{{- $namespace    := key (print "app_config_vars/global/config.json/" $context "/NAMESPACE") -}}
 {{- $namespaceKey := (print "deployment_registry/" $namespace) -}}
 {{- range $applicationName, $variants := tree $namespaceKey | byKey }}
 apiVersion: networking.istio.io/v1alpha3

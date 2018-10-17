@@ -15,6 +15,21 @@
     "value": "c2F0dXJuLWdyZWVu"
   },
   {
+    "key": "app_config_vars/global/config.json/green-proof02/DOMAIN",
+    "flags": 0,
+    "value": "YXBwcy5zdC53ZWFsdGh3aXphcmRzLmlv"
+  },
+  {
+    "key": "app_config_vars/global/config.json/green-proof02/ENVIRONMENT",
+    "flags": 0,
+    "value": "Z3JlZW4="
+  },
+  {
+    "key": "app_config_vars/global/config.json/green-proof02/NAMESPACE",
+    "flags": 0,
+    "value": "c3Q="
+  },
+  {
     "key": "app_config_vars/saturn/income-tax-service.json/saturn-green/ConfigMap/CONTEXT_ROUTE",
     "flags": 0,
     "value": "Lw=="
@@ -195,6 +210,26 @@
     "value": "dWk="
   },
   {
+    "key": "app_config_vars/docx-generator.json/green/ConfigMap/CONTEXT_ROUTE",
+    "flags": 0,
+    "value": "L2RvY3gtZ2VuZXJhdG9y"
+  },
+  {
+    "key": "app_config_vars/docx-generator.json/green/hostname",
+    "flags": 0,
+    "value": "YXBwcy5ncmVlbi53ZWFsdGh3aXphcmRzLmlv"
+  },
+  {
+    "key": "app_config_vars/income-tax-service.json/green/ConfigMap/CONTEXT_ROUTE",
+    "flags": 0,
+    "value": "Lw=="
+  },
+  {
+    "key": "app_config_vars/income-tax-service.json/green/hostname",
+    "flags": 0,
+    "value": "aW5jb21lLXRheC1zZXJ2aWNlLnN0LndlYWx0aHdpemFyZHMuaW8="
+  },
+  {
     "key": "deployment_registry/saturn-green/default-k8s-backend/master",
     "flags": 0,
     "value": ""
@@ -226,6 +261,21 @@
   },
   {
     "key": "deployment_registry/saturn-green/fact-find-service/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/st/docx-generator/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/st/income-tax-service/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/st/income-tax-service/OPS-3353",
     "flags": 0,
     "value": ""
   }

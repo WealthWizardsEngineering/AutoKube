@@ -1,10 +1,15 @@
-{{- $namespace             := env "NAMESPACE" -}}
-{{- $tenant                := index ($namespace | split "-") 0 -}}
-{{- $defaultDomain         := key (print "app_config_vars/global/config.json/" $namespace "-proof02/DOMAIN") -}}
+{{- $context               := env "CONTEXT" -}}
+{{- $defaultDomain         := key (print "app_config_vars/global/config.json/" $context "/DOMAIN") -}}
+{{- $environment           := key (print "app_config_vars/global/config.json/" $context "/ENVIRONMENT") -}}
+{{- $namespace             := key (print "app_config_vars/global/config.json/" $context "/NAMESPACE") -}}
+{{- with ($namespace | split "-") -}}
+{{- with index . 0 -}}
+{{- $tenant                := (print . "/") | replaceAll (print $namespace "/") "" -}}
 {{- range $applicationName, $variants := tree (print "deployment_registry/" $namespace) | byKey }}
-{{- if (keyOrDefault (print "app_config_vars/" $tenant "/" $applicationName ".json/create_ingress") "true" | parseBool) }}
-{{- $publicDomain          := keyOrDefault (print "app_config_vars/" $tenant "/" $applicationName ".json/" $namespace "/hostname") $defaultDomain -}}
-{{- $contextRoute          := keyOrDefault (print "app_config_vars/" $tenant "/" $applicationName ".json/" $namespace "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName) -}}
+{{- $configPath            := print "app_config_vars/" $tenant $applicationName ".json" -}}
+{{- if (keyOrDefault (print $configPath "/create_ingress") "true" | parseBool) }}
+{{- $publicDomain          := keyOrDefault (print $configPath "/" $environment "/hostname") $defaultDomain -}}
+{{- $contextRoute          := keyOrDefault (print $configPath "/" $environment "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName) -}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -58,5 +63,7 @@ spec:
         subset: master
   {{- end }}
 ---
-{{- end }}
 {{ end }}
+{{- end -}}
+{{- end }}
+{{- end -}}
