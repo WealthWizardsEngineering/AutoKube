@@ -18,6 +18,10 @@ spec:
     - destination:
         host: fact-find-service.saturn-green.svc.cluster.local
         subset: master
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -42,6 +46,10 @@ spec:
     - destination:
         host: fact-find-ui.saturn-green.svc.cluster.local
         subset: OPS-3353
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
   - match:
     - uri:
         regex: '^/fact-find(/.*)?$'
@@ -49,6 +57,10 @@ spec:
     - destination:
         host: fact-find-ui.saturn-green.svc.cluster.local
         subset: master
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -71,8 +83,16 @@ spec:
     - destination:
         host: income-tax-service.saturn-green.svc.cluster.local
         subset: OPS-335
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
   - route:
     - destination:
         host: income-tax-service.saturn-green.svc.cluster.local
         subset: master
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
 ---

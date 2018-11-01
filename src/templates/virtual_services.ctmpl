@@ -34,6 +34,10 @@ spec:
     - destination:
         host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
         subset: {{ .Key }}
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
   {{- else }}
   - match:
     - uri:
@@ -45,6 +49,10 @@ spec:
     - destination:
         host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
         subset: {{ .Key }}
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
   {{- end }}
   {{- end }}
   {{- end }}
@@ -53,6 +61,10 @@ spec:
     - destination:
         host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
         subset: master
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
   {{- else }}
   - match:
     - uri:
@@ -61,6 +73,10 @@ spec:
     - destination:
         host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
         subset: master
+    appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
   {{- end }}
 ---
 {{ end }}
