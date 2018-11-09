@@ -17,7 +17,13 @@ template {
 }
 
 template {
-  source = "templates/virtual_services.ctmpl"
-  destination = "output/virtual_services.yaml"
-  command = "./apply-changes.sh output/virtual_services.yaml"
+  source = "templates/virtual_services-ingress.ctmpl"
+  destination = "output/virtual_services-ingress.yaml"
+  command = "./apply-changes.sh output/virtual_services-ingress.yaml"
+}
+
+template {
+  source = "templates/virtual_services-mesh.ctmpl"
+  destination = "output/virtual_services-mesh.yaml"
+  command = "./apply-changes.sh output/virtual_services-mesh.yaml"
 }
