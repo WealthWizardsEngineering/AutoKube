@@ -1,0 +1,87 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: fact-find-service-mesh
+spec:
+  hosts:
+    - fact-find-service.saturn-green.svc.cluster.local
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: fact-find-service.saturn-green.svc.cluster.local
+            subset: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: fact-find-ui-mesh
+spec:
+  hosts:
+    - fact-find-ui.saturn-green.svc.cluster.local
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          headers:
+            x-variant-id:
+              exact: OPS-3353
+      route:
+        -
+          destination:
+            host: fact-find-ui.saturn-green.svc.cluster.local
+            subset: OPS-3353
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: fact-find-ui.saturn-green.svc.cluster.local
+            subset: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: income-tax-service-mesh
+spec:
+  hosts:
+    - income-tax-service.saturn-green.svc.cluster.local
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          headers:
+            x-variant-id:
+              exact: OPS-335
+      route:
+        -
+          destination:
+            host: income-tax-service.saturn-green.svc.cluster.local
+            subset: OPS-335
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: income-tax-service.saturn-green.svc.cluster.local
+            subset: master

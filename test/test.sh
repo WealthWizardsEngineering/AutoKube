@@ -31,7 +31,8 @@ function runTestsFor()
 
     assertEquals "Expected destination rules to be correct" /usr/test/expected_outputs/${CONTEXT}/destination_rules.rendered /consul-template/output/destination_rules.yaml || RESULT=1
     assertEquals "Expected kubeconfig to be correct" /usr/test/expected_outputs/${CONTEXT}/kubeconfig.rendered /consul-template/output/kubeconfig || RESULT=1
-    assertEquals "Expected virtual services to be correct" /usr/test/expected_outputs/${CONTEXT}/virtual_services.rendered /consul-template/output/virtual_services.yaml || RESULT=1
+    assertEquals "Expected ingress virtual services to be correct" /usr/test/expected_outputs/${CONTEXT}/virtual_services-ingress.rendered /consul-template/output/virtual_services-ingress.yaml || RESULT=1
+    assertEquals "Expected mesh virtual services to be correct" /usr/test/expected_outputs/${CONTEXT}/virtual_services-mesh.rendered /consul-template/output/virtual_services-mesh.yaml || RESULT=1
 
     return ${RESULT}
 }

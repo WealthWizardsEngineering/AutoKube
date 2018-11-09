@@ -1,0 +1,53 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: docx-generator-mesh
+spec:
+  hosts:
+    - docx-generator.st.svc.cluster.local
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: docx-generator.st.svc.cluster.local
+            subset: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: income-tax-service-mesh
+spec:
+  hosts:
+    - income-tax-service.st.svc.cluster.local
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          headers:
+            x-variant-id:
+              exact: OPS-3353
+      route:
+        -
+          destination:
+            host: income-tax-service.st.svc.cluster.local
+            subset: OPS-3353
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: income-tax-service.st.svc.cluster.local
+            subset: master
