@@ -8,6 +8,7 @@ spec:
     - default-gateway
   hosts:
     - apps.green.wealthwizards.io
+    - "*.apps.green.wealthwizards.io"
   http:
     -
       appendHeaders:
@@ -33,6 +34,7 @@ spec:
     - default-gateway
   hosts:
     - income-tax-service.st.wealthwizards.io
+    - "*.income-tax-service.st.wealthwizards.io"
   http:
     -
       appendHeaders:
@@ -43,7 +45,22 @@ spec:
         -
           headers:
             x-variant-id:
-              exact: OPS-3353
+              regex: (OPS-3353|ops-3353)
+      route:
+        -
+          destination:
+            host: income-tax-service.st.svc.cluster.local
+            subset: OPS-3353
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: OPS-3353
+      match:
+        -
+          authority:
+            regex: (OPS-3353|ops-3353).income-tax-service.st.wealthwizards.io
       route:
         -
           destination:

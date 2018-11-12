@@ -20,6 +20,7 @@ spec:
     - default-gateway
   hosts:
     - {{ $publicDomain }}
+    - "*.{{ $publicDomain }}"
   http:
   {{- range $variants := $variants }}
   {{- if ne .Key "master" }}
@@ -33,7 +34,22 @@ spec:
         -
           headers:
             x-variant-id:
-              exact: {{ .Key }}
+              regex: ({{ .Key }}|{{ .Key |toLower }})
+      route:
+        -
+          destination:
+            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+            subset: {{ .Key }}
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: {{ .Key }}
+      match:
+        -
+          authority:
+            regex: ({{ .Key }}|{{ .Key |toLower }}).{{ $publicDomain }}
       route:
         -
           destination:
@@ -51,7 +67,24 @@ spec:
             regex: ^{{ $contextRoute }}(/.*)?$
           headers:
             x-variant-id:
-              exact: {{ .Key }}
+              regex: ({{ .Key }}|{{ .Key | toLower }})
+      route:
+        -
+          destination:
+            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+            subset: {{ .Key }}
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: {{ .Key }}
+      match:
+        -
+          authority:
+            regex: ({{ .Key }}|{{ .Key |toLower }}).{{ $publicDomain }}
+          uri:
+            regex: ^{{ $contextRoute }}(/.*)?$
       route:
         -
           destination:
