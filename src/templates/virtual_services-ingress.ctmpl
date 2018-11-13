@@ -30,21 +30,6 @@ spec:
         x-envoy-max-retries: "5"
         x-envoy-retry-on: connect-failure
         x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          headers:
-            x-variant-id:
-              regex: ({{ .Key }}|{{ .Key |toLower }})
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ .Key }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
         x-variant-id: {{ .Key }}
       match:
         -
@@ -55,7 +40,39 @@ spec:
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
             subset: {{ .Key }}
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          headers:
+            x-variant-id:
+              regex: ({{ .Key }}|{{ .Key |toLower }})
+      route:
+        -
+          destination:
+            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+            subset: {{ .Key }}
   {{- else }}
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: {{ .Key }}
+      match:
+        -
+          authority:
+            regex: ({{ .Key }}|{{ .Key |toLower }}).{{ $publicDomain }}
+          uri:
+            regex: ^{{ $contextRoute }}(/.*)?$
+      route:
+        -
+          destination:
+            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+            subset: {{ .Key }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"
@@ -68,23 +85,6 @@ spec:
           headers:
             x-variant-id:
               regex: ({{ .Key }}|{{ .Key | toLower }})
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ .Key }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: {{ .Key }}
-      match:
-        -
-          authority:
-            regex: ({{ .Key }}|{{ .Key |toLower }}).{{ $publicDomain }}
-          uri:
-            regex: ^{{ $contextRoute }}(/.*)?$
       route:
         -
           destination:
