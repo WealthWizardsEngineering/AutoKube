@@ -41,13 +41,13 @@ spec:
         x-envoy-max-retries: "5"
         x-envoy-retry-on: connect-failure
         x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: OPS-3353
       match:
         -
+          authority:
+            regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
           uri:
             regex: ^/fact-find(/.*)?$
-          headers:
-            x-variant-id:
-              regex: (OPS-3353|ops-3353)
       route:
         -
           destination:
@@ -58,13 +58,13 @@ spec:
         x-envoy-max-retries: "5"
         x-envoy-retry-on: connect-failure
         x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: OPS-3353
       match:
         -
-          authority:
-            regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
           uri:
             regex: ^/fact-find(/.*)?$
+          headers:
+            x-variant-id:
+              regex: (OPS-3353|ops-3353)
       route:
         -
           destination:
@@ -101,11 +101,11 @@ spec:
         x-envoy-max-retries: "5"
         x-envoy-retry-on: connect-failure
         x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: OPS-335
       match:
         -
-          headers:
-            x-variant-id:
-              regex: (OPS-335|ops-335)
+          authority:
+            regex: (OPS-335|ops-335).income-tax-service.st.wealthwizards.io
       route:
         -
           destination:
@@ -116,11 +116,11 @@ spec:
         x-envoy-max-retries: "5"
         x-envoy-retry-on: connect-failure
         x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: OPS-335
       match:
         -
-          authority:
-            regex: (OPS-335|ops-335).income-tax-service.st.wealthwizards.io
+          headers:
+            x-variant-id:
+              regex: (OPS-335|ops-335)
       route:
         -
           destination:
