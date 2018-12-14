@@ -15,9 +15,22 @@ function assertEquals()
     fi
 }
 
+function getNamespaceFrom()
+{
+    local CONTEXT=$1
+    local TENANT=$(echo ${CONTEXT} | rev | cut -f 3 -d \- | rev)
+    local STAGE=$(echo ${CONTEXT} | rev | cut -f 2 -d \- | rev)
+    if [[ -z "${TENANT}" ]]; then
+       echo "${STAGE}"
+    else
+       echo "${TENANT}-${STAGE}"
+    fi
+ }
+
 function runTestsFor()
 {
     export CONTEXT=$1
+    export NAMESPACE=$(getNamespaceFrom ${CONTEXT})
     export KUBERNETES_USERNAME=test
     export KUBERNETES_PASSWORD=mypassword
     export KUBERNETES_API=https://my-api-server

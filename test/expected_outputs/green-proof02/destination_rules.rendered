@@ -4,7 +4,7 @@ kind: DestinationRule
 metadata:
   name: docx-generator
 spec:
-  host: docx-generator.st.svc.cluster.local
+  host: docx-generator.green.svc.cluster.local
   subsets:
   - name: master
     labels:
@@ -15,7 +15,7 @@ kind: DestinationRule
 metadata:
   name: income-tax-service
 spec:
-  host: income-tax-service.st.svc.cluster.local
+  host: income-tax-service.green.svc.cluster.local
   subsets:
   - name: OPS-3353
     labels:
