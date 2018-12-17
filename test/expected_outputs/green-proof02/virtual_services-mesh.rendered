@@ -5,7 +5,7 @@ metadata:
   name: docx-generator-mesh
 spec:
   hosts:
-    - docx-generator.st.svc.cluster.local
+    - docx-generator.green.svc.cluster.local
   http:
     -
       appendHeaders:
@@ -15,7 +15,7 @@ spec:
       route:
         -
           destination:
-            host: docx-generator.st.svc.cluster.local
+            host: docx-generator.green.svc.cluster.local
             subset: master
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -24,7 +24,7 @@ metadata:
   name: income-tax-service-mesh
 spec:
   hosts:
-    - income-tax-service.st.svc.cluster.local
+    - income-tax-service.green.svc.cluster.local
   http:
     -
       appendHeaders:
@@ -39,7 +39,7 @@ spec:
       route:
         -
           destination:
-            host: income-tax-service.st.svc.cluster.local
+            host: income-tax-service.green.svc.cluster.local
             subset: OPS-3353
     -
       appendHeaders:
@@ -49,5 +49,5 @@ spec:
       route:
         -
           destination:
-            host: income-tax-service.st.svc.cluster.local
+            host: income-tax-service.green.svc.cluster.local
             subset: master
