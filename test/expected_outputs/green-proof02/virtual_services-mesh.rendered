@@ -35,7 +35,7 @@ spec:
         -
           headers:
             x-variant-id:
-              exact: OPS-3353
+              regex: (OPS-3353|ops-3353)
       route:
         -
           destination:

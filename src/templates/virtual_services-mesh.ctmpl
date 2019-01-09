@@ -26,7 +26,7 @@ spec:
         -
           headers:
             x-variant-id:
-              exact: {{ .Key }}
+              regex: ({{ .Key }}|{{ .Key |toLower }})
       route:
         -
           destination:
