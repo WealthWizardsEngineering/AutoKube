@@ -8,7 +8,7 @@
 {{- $configPath            := print "app_config_vars/" $tenant $applicationName ".json" -}}
 {{- if (keyOrDefault (print $configPath "/create_ingress") "true" | parseBool) }}
 {{- $publicDomain          := keyOrDefault (print $configPath "/" $namespace "/hostname") $defaultDomain -}}
-{{- $contextRoute          := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName) -}}
+{{- $contextRoute          := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/CONTEXT_ROUTE") (keyOrDefault (print $configPath "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName)) -}}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService

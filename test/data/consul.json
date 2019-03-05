@@ -25,9 +25,9 @@
     "value": "ZmFsc2U="
   },
   {
-    "key": "app_config_vars/saturn/fact-find-service.json/saturn-green/ConfigMap/CONTEXT_ROUTE",
+    "key": "app_config_vars/saturn/fact-find-service.json/ConfigMap/CONTEXT_ROUTE",
     "flags": 0,
-    "value": "L2ZhY3QtZmluZC1zZXJ2aWNl"
+    "value": "L2ZhY3QtZmluZC1zdmM="
   },
   {
     "key": "app_config_vars/saturn/fact-find-ui.json/saturn-green/ConfigMap/CONTEXT_ROUTE",

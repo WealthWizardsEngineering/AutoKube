@@ -18,7 +18,7 @@ spec:
       match:
         -
           uri:
-            regex: ^/fact-find-service(/.*)?$
+            regex: ^/fact-find-svc(/.*)?$
       route:
         -
           destination:
