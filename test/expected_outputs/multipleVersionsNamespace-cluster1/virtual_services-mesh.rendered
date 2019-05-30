@@ -1,0 +1,62 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: multiple-versions-mesh
+spec:
+  hosts:
+    - multiple-versions.multipleVersionsNamespace.svc.cluster.local
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          headers:
+            x-variant-id:
+              regex: (OPS-335|ops-335)
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: OPS-335
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/multiple-versions/v1(/.*)?$
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: v1
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/multiple-versions/v2(/.*)?$
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: v2
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: master

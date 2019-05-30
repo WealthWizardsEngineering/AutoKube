@@ -8,7 +8,7 @@
 {{- $configPath            := print "app_config_vars/" $tenant $applicationName ".json" -}}
 {{- if (keyOrDefault (print $configPath "/create_ingress") "true" | parseBool) }}
 {{- $publicDomain          := keyOrDefault (print $configPath "/" $namespace "/hostname") $defaultDomain -}}
-{{- $contextRoute          := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/CONTEXT_ROUTE") (keyOrDefault (print $configPath "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName)) -}}
+{{- $contextRoute          := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/CONTEXT_ROUTE") (keyOrDefault (print $configPath "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName)) | regexReplaceAll "^/$" "" -}}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -22,8 +22,8 @@ spec:
     - "*.{{ $publicDomain }}"
   http:
   {{- range $variants := $variants }}
-  {{- if ne .Key "master" }}
-  {{- if eq $contextRoute "/" }}
+  {{- if and (ne .Key "master") (not (keyExists (print $configPath "/" $namespace "/versions/" .Key))) }}
+  {{- if eq $contextRoute "" }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"
@@ -92,7 +92,23 @@ spec:
   {{- end }}
   {{- end }}
   {{- end }}
-  {{- if eq $contextRoute "/" }}
+  {{- range tree (print $configPath "/" $namespace "/versions/") }}
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^{{ $contextRoute }}/{{ .Key }}(/.*)?$
+      route:
+        -
+          destination:
+            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+            subset: {{ .Key }}
+  {{- end }}
+  {{- if eq $contextRoute "" }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"

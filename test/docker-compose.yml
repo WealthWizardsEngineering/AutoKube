@@ -7,7 +7,7 @@ services:
     image: consul
 
   init:
-    command: consul kv import @/usr/test/data/consul.json
+    command: /usr/test/data/load-test-data.sh
     depends_on:
       - consul
     environment:

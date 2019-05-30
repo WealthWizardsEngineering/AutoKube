@@ -1,0 +1,37 @@
+[
+  {
+    "key": "app_config_vars/global/config.json/multipleVersionsNamespace/DOMAIN",
+    "flags": 0,
+    "value": "bXVsdGlwbGVWZXJzaW9ucy5leGFtcGxlLmNvbQ=="
+  },
+  {
+    "key": "app_config_vars/multiple-versions.json/multipleVersionsNamespace/versions/v1",
+    "flags": 0,
+    "value": "MS4xLjE="
+  },
+  {
+    "key": "app_config_vars/multiple-versions.json/multipleVersionsNamespace/versions/v2",
+    "flags": 0,
+    "value": "Mi4zLjA="
+  },
+  {
+    "key": "deployment_registry/multipleVersionsNamespace/multiple-versions/master",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/multipleVersionsNamespace/multiple-versions/OPS-335",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/multipleVersionsNamespace/multiple-versions/v1",
+    "flags": 0,
+    "value": ""
+  },
+  {
+    "key": "deployment_registry/multipleVersionsNamespace/multiple-versions/v2",
+    "flags": 0,
+    "value": ""
+  }
+]
