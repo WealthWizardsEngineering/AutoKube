@@ -1,0 +1,21 @@
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: multiple-versions
+spec:
+  host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+  subsets:
+  - name: OPS-335
+    labels:
+      version: OPS-335
+  - name: master
+    labels:
+      version: master
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+---

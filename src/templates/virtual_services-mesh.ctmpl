@@ -5,6 +5,7 @@
 {{- $tenant                := (print . "/") | replaceAll (print $namespace "/") "" -}}
 {{- range $applicationName, $variants := tree (print "deployment_registry/" $namespace) | byKey -}}
 {{- $configPath            := print "app_config_vars/" $tenant $applicationName ".json" -}}
+{{- $contextRoute          := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/CONTEXT_ROUTE") (keyOrDefault (print $configPath "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName)) | regexReplaceAll "^/$" "" -}}
 {{- if (keyOrDefault (print $configPath "/create_ingress") "true" | parseBool) -}}
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -16,7 +17,7 @@ spec:
     - {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
   http:
   {{- range $variants := $variants }}
-  {{- if ne .Key "master" }}
+  {{- if and (ne .Key "master") (not (keyExists (print $configPath "/" $namespace "/versions/" .Key))) }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"
@@ -33,6 +34,22 @@ spec:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
             subset: {{ .Key }}
   {{- end }}
+  {{- end }}
+  {{- range tree (print $configPath "/" $namespace "/versions/") }}
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^{{ $contextRoute }}/{{ .Key }}(/.*)?$
+      route:
+        -
+          destination:
+            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+            subset: {{ .Key }}
   {{- end }}
     -
       appendHeaders:

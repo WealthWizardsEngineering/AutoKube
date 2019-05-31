@@ -59,6 +59,8 @@ runTestsFor "saturn-green-proof02" || RESULT=1
 
 runTestsFor "green-proof02" || RESULT=1
 
+runTestsFor "multipleVersionsNamespace-cluster1" || RESULT=1
+
 if [[ "$RESULT" -gt 0 ]]; then
   echo "There were test failures, inspect the details above for details"
 fi
