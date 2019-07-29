@@ -9,6 +9,7 @@
 {{- if (keyOrDefault (print $configPath "/create_ingress") "true" | parseBool) }}
 {{- $publicDomain          := keyOrDefault (print $configPath "/" $namespace "/hostname") $defaultDomain -}}
 {{- $contextRoute          := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/CONTEXT_ROUTE") (keyOrDefault (print $configPath "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName)) | regexReplaceAll "^/$" "" -}}
+{{- $secondaryRoutes := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/SECONDARY_CONTEXT_ROUTES") (keyOrDefault (print $configPath "/ConfigMap/SECONDARY_CONTEXT_ROUTES") "") -}}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -67,6 +68,11 @@ spec:
             regex: ({{ .Key }}|{{ .Key |toLower }}).{{ $publicDomain }}
           uri:
             regex: ^{{ $contextRoute }}(/.*)?$
+          {{- if $secondaryRoutes }}
+          {{- range ($secondaryRoutes | split ",") }}
+            regex: ^{{ . }}(/.*)?$
+          {{- end }}
+          {{- end }}
       route:
         -
           destination:
@@ -81,6 +87,11 @@ spec:
         -
           uri:
             regex: ^{{ $contextRoute }}(/.*)?$
+          {{- if $secondaryRoutes }}
+          {{- range ($secondaryRoutes | split ",") }}
+            regex: ^{{ . }}(/.*)?$
+          {{- end }}
+          {{- end }}
           headers:
             x-variant-id:
               regex: ({{ .Key }}|{{ .Key | toLower }})
@@ -102,6 +113,11 @@ spec:
         -
           uri:
             regex: ^{{ $contextRoute }}/{{ .Key }}(/.*)?$
+          {{- if $secondaryRoutes }}
+          {{- range ($secondaryRoutes | split ",") }}
+            regex: ^{{ . }}(/.*)?$
+          {{- end }}
+          {{- end }}
       route:
         -
           destination:
@@ -129,6 +145,11 @@ spec:
         -
           uri:
             regex: ^{{ $contextRoute }}(/.*)?$
+          {{- if $secondaryRoutes }}
+          {{- range ($secondaryRoutes | split ",") }}
+            regex: ^{{ . }}(/.*)?$
+          {{- end }}
+          {{- end }}
       route:
         -
           destination:

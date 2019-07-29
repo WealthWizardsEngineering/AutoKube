@@ -48,6 +48,8 @@ spec:
             regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
           uri:
             regex: ^/fact-find(/.*)?$
+            regex: ^/fact-find-path1(/.*)?$
+            regex: ^/fact-find-path2(/.*)?$
       route:
         -
           destination:
@@ -62,6 +64,8 @@ spec:
         -
           uri:
             regex: ^/fact-find(/.*)?$
+            regex: ^/fact-find-path1(/.*)?$
+            regex: ^/fact-find-path2(/.*)?$
           headers:
             x-variant-id:
               regex: (OPS-3353|ops-3353)
@@ -79,6 +83,8 @@ spec:
         -
           uri:
             regex: ^/fact-find(/.*)?$
+            regex: ^/fact-find-path1(/.*)?$
+            regex: ^/fact-find-path2(/.*)?$
       route:
         -
           destination:
