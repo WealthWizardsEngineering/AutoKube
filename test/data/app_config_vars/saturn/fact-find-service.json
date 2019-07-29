@@ -1,0 +1,5 @@
+{
+  "ConfigMap": {
+    "CONTEXT_ROUTE": "/fact-find-svc"
+  }
+}

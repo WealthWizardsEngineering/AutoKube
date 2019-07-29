@@ -2,19 +2,19 @@ version: "3"
 services:
 
   consul:
-    expose:
-      - "8500"
+    ports:
+      - "8500:8500"
     image: consul
 
   init:
-    command: /usr/test/data/load-test-data.sh
     depends_on:
       - consul
     environment:
-      - CONSUL_HTTP_ADDR=http://consul:8500
-    image: consul
+      - CONSUL_ENDPOINT=consul
+    image: sroskelley/docker-git2consul:latest
     volumes:
-      - ".:/usr/test"
+      - "../:/tmp/git"
+      - "./git2consul_config.json:/etc/git2consul.d/config.json"
 
   test:
     build: ..

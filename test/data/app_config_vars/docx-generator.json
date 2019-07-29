@@ -1,0 +1,8 @@
+{
+  "green": {
+    "hostname": "apps.green.wealthwizards.io",
+    "ConfigMap": {
+      "CONTEXT_ROUTE": "/docx-generator"
+    }
+  }
+}

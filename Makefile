@@ -1,5 +1,8 @@
 test:
-	docker-compose -f test/docker-compose.yml run test
+	@ ./test/git2consul_config.sh
+	@ docker-compose -f test/docker-compose.yml run test
+	@ docker-compose -f test/docker-compose.yml down
+	@ rm -f ./test/git2consul_config.json
 .PHONY: test
 
 tinker:
