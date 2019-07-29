@@ -1,0 +1,8 @@
+{
+  "green": {
+    "hostname": "income-tax-service.st.wealthwizards.io",
+    "ConfigMap": {
+      "CONTEXT_ROUTE": "/"
+    }
+  }
+}

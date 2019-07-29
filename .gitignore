@@ -1,2 +1,3 @@
 .env
 output
+test/git2consul_config.json

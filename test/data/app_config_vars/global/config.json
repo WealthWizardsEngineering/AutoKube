@@ -1,0 +1,11 @@
+{
+  "green-proof02": {
+    "DOMAIN": "apps.st.wealthwizards.io"
+  },
+  "multipleVersionsNamespace": {
+    "DOMAIN": "multipleVersions.example.com"
+  },
+  "saturn-green": {
+    "DOMAIN": "saturn-green.wealthwizards.io"
+  }
+}
