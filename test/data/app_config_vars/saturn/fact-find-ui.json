@@ -2,7 +2,8 @@
   "saturn-green": {
     "version": "latest",
     "ConfigMap": {
-      "CONTEXT_ROUTE": "/fact-find"
+      "CONTEXT_ROUTE": "/fact-find",
+      "SECONDARY_CONTEXT_ROUTES": "/fact-find-path1,/fact-find-path2"
     }
   }
 }
