@@ -5,22 +5,25 @@ metadata:
   name: docx-generator-ingress
 spec:
   gateways:
-  - default-gateway
+    - default-gateway
   hosts:
-  - apps.green.wealthwizards.io
-  - "*.apps.green.wealthwizards.io"
+    - apps.green.wealthwizards.io
+    - "*.apps.green.wealthwizards.io"
   http:
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-    match:
-    - uri:
-        regex: ^/docx-generator(/.*)?$
-    route:
-    - destination:
-        host: docx-generator.green.svc.cluster.local
-        subset: master
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/docx-generator(/.*)?$
+      route:
+        -
+          destination:
+            host: docx-generator.green.svc.cluster.local
+            subset: master
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -28,40 +31,48 @@ metadata:
   name: income-tax-service-ingress
 spec:
   gateways:
-  - default-gateway
+    - default-gateway
   hosts:
-  - income-tax-service.st.wealthwizards.io
-  - "*.income-tax-service.st.wealthwizards.io"
+    - income-tax-service.st.wealthwizards.io
+    - "*.income-tax-service.st.wealthwizards.io"
   http:
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-      x-variant-id: OPS-3353
-    match:
-    - authority:
-        regex: (OPS-3353|ops-3353).income-tax-service.st.wealthwizards.io
-    route:
-    - destination:
-        host: income-tax-service.green.svc.cluster.local
-        subset: OPS-3353
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-    match:
-    - headers:
-        x-variant-id:
-        regex: (OPS-3353|ops-3353)
-    route:
-    - destination:
-        host: income-tax-service.green.svc.cluster.local
-        subset: OPS-3353
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-    route:
-    - destination:
-        host: income-tax-service.green.svc.cluster.local
-        subset: master
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: OPS-3353
+      match:
+        -
+          authority:
+            regex: (OPS-3353|ops-3353).income-tax-service.st.wealthwizards.io
+      route:
+        -
+          destination:
+            host: income-tax-service.green.svc.cluster.local
+            subset: OPS-3353
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          headers:
+            x-variant-id:
+              regex: (OPS-3353|ops-3353)
+      route:
+        -
+          destination:
+            host: income-tax-service.green.svc.cluster.local
+            subset: OPS-3353
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: income-tax-service.green.svc.cluster.local
+            subset: master

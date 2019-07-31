@@ -5,69 +5,84 @@ metadata:
   name: multiple-versions-ingress
 spec:
   gateways:
-  - default-gateway
+    - default-gateway
   hosts:
-  - multipleVersions.example.com
-  - "*.multipleVersions.example.com"
+    - multipleVersions.example.com
+    - "*.multipleVersions.example.com"
   http:
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-      x-variant-id: OPS-335
-    match:
-    - authority:
-        regex: (OPS-335|ops-335).multipleVersions.example.com
-      uri:
-        regex: ^/multiple-versions(/.*)?$
-    route:
-    - destination:
-        host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
-        subset: OPS-335
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-    match:
-    - uri:
-        regex: ^/multiple-versions(/.*)?$
-      headers:
-        x-variant-id:
-          regex: (OPS-335|ops-335)
-    route:
-    - destination:
-        host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
-        subset: OPS-335
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-    match:
-    - uri:
-        regex: ^/multiple-versions/v1(/.*)?$
-    route:
-    - destination:
-        host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
-        subset: v1
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-    match:
-    - uri:
-        regex: ^/multiple-versions/v2(/.*)?$
-    route:
-    - destination:
-        host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
-        subset: v2
-  - appendHeaders:
-      x-envoy-max-retries: "5"
-      x-envoy-retry-on: connect-failure
-      x-envoy-upstream-rq-timeout-ms: "0"
-    match:
-    - uri:
-        regex: ^/multiple-versions(/.*)?$
-    route:
-    - destination:
-        host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
-        subset: master
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: OPS-335
+      match:
+        -
+          authority:
+            regex: (OPS-335|ops-335).multipleVersions.example.com
+          uri:
+            regex: ^/multiple-versions(/.*)?$
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: OPS-335
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/multiple-versions(/.*)?$
+          headers:
+            x-variant-id:
+              regex: (OPS-335|ops-335)
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: OPS-335
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/multiple-versions/v1(/.*)?$
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: v1
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/multiple-versions/v2(/.*)?$
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: v2
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/multiple-versions(/.*)?$
+      route:
+        -
+          destination:
+            host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+            subset: master
