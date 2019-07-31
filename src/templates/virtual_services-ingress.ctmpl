@@ -23,23 +23,24 @@ spec:
     - "*.{{ $publicDomain }}"
   http:
   {{- range $variants := $variants }}
-  {{- if and (ne .Key "master") (not (keyExists (print $configPath "/" $namespace "/versions/" .Key))) }}
+  {{- $variant := .Key -}}
+  {{- if and (ne $variant "master") (not (keyExists (print $configPath "/" $namespace "/versions/" $variant))) }}
   {{- if eq $contextRoute "" }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"
         x-envoy-retry-on: connect-failure
         x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: {{ .Key }}
+        x-variant-id: {{ $variant }}
       match:
         -
           authority:
-            regex: ({{ .Key }}|{{ .Key |toLower }}).{{ $publicDomain }}
+            regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
       route:
         -
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ .Key }}
+            subset: {{ $variant }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"
@@ -49,27 +50,31 @@ spec:
         -
           headers:
             x-variant-id:
-              regex: ({{ .Key }}|{{ .Key |toLower }})
+              regex: ({{ $variant }}|{{ $variant |toLower }})
       route:
         -
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ .Key }}
+            subset: {{ $variant }}
   {{- else }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"
         x-envoy-retry-on: connect-failure
         x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: {{ .Key }}
+        x-variant-id: {{ $variant }}
       match:
         -
           authority:
-            regex: ({{ .Key }}|{{ .Key |toLower }}).{{ $publicDomain }}
+            regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
           uri:
             regex: ^{{ $contextRoute }}(/.*)?$
           {{- if $secondaryRoutes }}
           {{- range ($secondaryRoutes | split ",") }}
+        -
+          authority:
+            regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
+          uri:
             regex: ^{{ . }}(/.*)?$
           {{- end }}
           {{- end }}
@@ -77,7 +82,7 @@ spec:
         -
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ .Key }}
+            subset: {{ $variant }}
     -
       appendHeaders:
         x-envoy-max-retries: "5"
@@ -87,19 +92,24 @@ spec:
         -
           uri:
             regex: ^{{ $contextRoute }}(/.*)?$
-          {{- if $secondaryRoutes }}
-          {{- range ($secondaryRoutes | split ",") }}
-            regex: ^{{ . }}(/.*)?$
-          {{- end }}
-          {{- end }}
           headers:
             x-variant-id:
-              regex: ({{ .Key }}|{{ .Key | toLower }})
+              regex: ({{ $variant }}|{{ $variant | toLower }})
+          {{- if $secondaryRoutes }}
+          {{- range ($secondaryRoutes | split ",") }}
+        -
+          uri:
+            regex: ^{{ . }}(/.*)?$
+          headers:
+            x-variant-id:
+              regex: ({{ $variant }}|{{ $variant | toLower }})
+          {{- end }}
+          {{- end }}
       route:
         -
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ .Key }}
+            subset: {{ $variant }}
   {{- end }}
   {{- end }}
   {{- end }}
@@ -113,11 +123,6 @@ spec:
         -
           uri:
             regex: ^{{ $contextRoute }}/{{ .Key }}(/.*)?$
-          {{- if $secondaryRoutes }}
-          {{- range ($secondaryRoutes | split ",") }}
-            regex: ^{{ . }}(/.*)?$
-          {{- end }}
-          {{- end }}
       route:
         -
           destination:
@@ -145,8 +150,10 @@ spec:
         -
           uri:
             regex: ^{{ $contextRoute }}(/.*)?$
-          {{- if $secondaryRoutes }}
-          {{- range ($secondaryRoutes | split ",") }}
+        {{- if $secondaryRoutes }}
+        {{- range ($secondaryRoutes | split ",") }}
+        -
+          uri:
             regex: ^{{ . }}(/.*)?$
           {{- end }}
           {{- end }}
