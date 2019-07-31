@@ -17,151 +17,128 @@ metadata:
   name: {{ $applicationName }}-ingress
 spec:
   gateways:
-    - default-gateway
+  - default-gateway
   hosts:
-    - {{ $publicDomain }}
-    - "*.{{ $publicDomain }}"
+  - {{ $publicDomain }}
+  - "*.{{ $publicDomain }}"
   http:
   {{- range $variants := $variants }}
   {{- $variant := .Key -}}
   {{- if and (ne $variant "master") (not (keyExists (print $configPath "/" $namespace "/versions/" $variant))) }}
   {{- if eq $contextRoute "" }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: {{ $variant }}
-      match:
-        -
-          authority:
-            regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ $variant }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          headers:
-            x-variant-id:
-              regex: ({{ $variant }}|{{ $variant |toLower }})
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ $variant }}
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+      x-variant-id: {{ $variant }}
+    match:
+    - authority:
+        regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
+    route:
+    - destination:
+        host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+        subset: {{ $variant }}
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - headers:
+        x-variant-id:
+        regex: ({{ $variant }}|{{ $variant |toLower }})
+    route:
+    - destination:
+        host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+        subset: {{ $variant }}
   {{- else }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: {{ $variant }}
-      match:
-        -
-          authority:
-            regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
-          uri:
-            regex: ^{{ $contextRoute }}(/.*)?$
-          {{- if $secondaryRoutes }}
-          {{- range ($secondaryRoutes | split ",") }}
-        -
-          authority:
-            regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
-          uri:
-            regex: ^{{ . }}(/.*)?$
-          {{- end }}
-          {{- end }}
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ $variant }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          uri:
-            regex: ^{{ $contextRoute }}(/.*)?$
-          headers:
-            x-variant-id:
-              regex: ({{ $variant }}|{{ $variant | toLower }})
-          {{- if $secondaryRoutes }}
-          {{- range ($secondaryRoutes | split ",") }}
-        -
-          uri:
-            regex: ^{{ . }}(/.*)?$
-          headers:
-            x-variant-id:
-              regex: ({{ $variant }}|{{ $variant | toLower }})
-          {{- end }}
-          {{- end }}
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ $variant }}
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+      x-variant-id: {{ $variant }}
+    match:
+    - authority:
+        regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
+      uri:
+        regex: ^{{ $contextRoute }}(/.*)?$
+    {{- if $secondaryRoutes }}
+    {{- range ($secondaryRoutes | split ",") }}
+    - authority:
+        regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
+      uri:
+        regex: ^{{ . }}(/.*)?$
+    {{- end }}
+    {{- end }}
+    route:
+    - destination:
+        host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+        subset: {{ $variant }}
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - uri:
+        regex: ^{{ $contextRoute }}(/.*)?$
+      headers:
+        x-variant-id:
+          regex: ({{ $variant }}|{{ $variant | toLower }})
+    {{- if $secondaryRoutes }}
+    {{- range ($secondaryRoutes | split ",") }}
+    - uri:
+        regex: ^{{ . }}(/.*)?$
+      headers:
+        x-variant-id:
+          regex: ({{ $variant }}|{{ $variant | toLower }})
+    {{- end }}
+    {{- end }}
+    route:
+    - destination:
+        host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+        subset: {{ $variant }}
   {{- end }}
   {{- end }}
   {{- end }}
   {{- range tree (print $configPath "/" $namespace "/versions/") }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          uri:
-            regex: ^{{ $contextRoute }}/{{ .Key }}(/.*)?$
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: {{ .Key }}
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - uri:
+        regex: ^{{ $contextRoute }}/{{ .Key }}(/.*)?$
+    route:
+    - destination:
+        host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+        subset: {{ .Key }}
   {{- end }}
   {{- if eq $contextRoute "" }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: master
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    route:
+    - destination:
+        host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+        subset: master
   {{- else }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          uri:
-            regex: ^{{ $contextRoute }}(/.*)?$
-        {{- if $secondaryRoutes }}
-        {{- range ($secondaryRoutes | split ",") }}
-        -
-          uri:
-            regex: ^{{ . }}(/.*)?$
-          {{- end }}
-          {{- end }}
-      route:
-        -
-          destination:
-            host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
-            subset: master
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - uri:
+        regex: ^{{ $contextRoute }}(/.*)?$
+    {{- if $secondaryRoutes }}
+    {{- range ($secondaryRoutes | split ",") }}
+    - uri:
+        regex: ^{{ . }}(/.*)?$
+    {{- end }}
+    {{- end }}
+    route:
+    - destination:
+        host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
+        subset: master
   {{- end }}
 {{ end }}
 {{- end -}}
