@@ -5,25 +5,22 @@ metadata:
   name: fact-find-service-ingress
 spec:
   gateways:
-    - default-gateway
+  - default-gateway
   hosts:
-    - saturn-green.wealthwizards.io
-    - "*.saturn-green.wealthwizards.io"
+  - saturn-green.wealthwizards.io
+  - "*.saturn-green.wealthwizards.io"
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          uri:
-            regex: ^/fact-find-svc(/.*)?$
-      route:
-        -
-          destination:
-            host: fact-find-service.saturn-green.svc.cluster.local
-            subset: master
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - uri:
+        regex: ^/fact-find-svc(/.*)?$
+    route:
+    - destination:
+        host: fact-find-service.saturn-green.svc.cluster.local
+        subset: master
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -31,87 +28,72 @@ metadata:
   name: fact-find-ui-ingress
 spec:
   gateways:
-    - default-gateway
+  - default-gateway
   hosts:
-    - saturn-green.wealthwizards.io
-    - "*.saturn-green.wealthwizards.io"
+  - saturn-green.wealthwizards.io
+  - "*.saturn-green.wealthwizards.io"
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: OPS-3353
-      match:
-        -
-          authority:
-            regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
-          uri:
-            regex: ^/fact-find(/.*)?$
-        -
-          authority:
-            regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
-          uri:
-            regex: ^/fact-find-path1(/.*)?$
-        -
-          authority:
-            regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
-          uri:
-            regex: ^/fact-find-path2(/.*)?$
-      route:
-        -
-          destination:
-            host: fact-find-ui.saturn-green.svc.cluster.local
-            subset: OPS-3353
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          uri:
-            regex: ^/fact-find(/.*)?$
-          headers:
-            x-variant-id:
-              regex: (OPS-3353|ops-3353)
-        -
-          uri:
-            regex: ^/fact-find-path1(/.*)?$
-          headers:
-            x-variant-id:
-              regex: (OPS-3353|ops-3353)
-        -
-          uri:
-            regex: ^/fact-find-path2(/.*)?$
-          headers:
-            x-variant-id:
-              regex: (OPS-3353|ops-3353)
-      route:
-        -
-          destination:
-            host: fact-find-ui.saturn-green.svc.cluster.local
-            subset: OPS-3353
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          uri:
-            regex: ^/fact-find(/.*)?$
-        -
-          uri:
-            regex: ^/fact-find-path1(/.*)?$
-        -
-          uri:
-            regex: ^/fact-find-path2(/.*)?$
-      route:
-        -
-          destination:
-            host: fact-find-ui.saturn-green.svc.cluster.local
-            subset: master
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+      x-variant-id: OPS-3353
+    match:
+    - authority:
+        regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
+      uri:
+        regex: ^/fact-find(/.*)?$
+    - authority:
+        regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
+      uri:
+        regex: ^/fact-find-path1(/.*)?$
+    - authority:
+        regex: (OPS-3353|ops-3353).saturn-green.wealthwizards.io
+      uri:
+        regex: ^/fact-find-path2(/.*)?$
+    route:
+    - destination:
+        host: fact-find-ui.saturn-green.svc.cluster.local
+        subset: OPS-3353
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - uri:
+        regex: ^/fact-find(/.*)?$
+      headers:
+        x-variant-id:
+          regex: (OPS-3353|ops-3353)
+    - uri:
+        regex: ^/fact-find-path1(/.*)?$
+      headers:
+        x-variant-id:
+          regex: (OPS-3353|ops-3353)
+    - uri:
+        regex: ^/fact-find-path2(/.*)?$
+      headers:
+        x-variant-id:
+          regex: (OPS-3353|ops-3353)
+    route:
+    - destination:
+        host: fact-find-ui.saturn-green.svc.cluster.local
+        subset: OPS-3353
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - uri:
+        regex: ^/fact-find(/.*)?$
+    - uri:
+        regex: ^/fact-find-path1(/.*)?$
+    - uri:
+        regex: ^/fact-find-path2(/.*)?$
+    route:
+    - destination:
+        host: fact-find-ui.saturn-green.svc.cluster.local
+        subset: master
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -119,48 +101,40 @@ metadata:
   name: income-tax-service-ingress
 spec:
   gateways:
-    - default-gateway
+  - default-gateway
   hosts:
-    - income-tax-service.st.wealthwizards.io
-    - "*.income-tax-service.st.wealthwizards.io"
+  - income-tax-service.st.wealthwizards.io
+  - "*.income-tax-service.st.wealthwizards.io"
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: OPS-335
-      match:
-        -
-          authority:
-            regex: (OPS-335|ops-335).income-tax-service.st.wealthwizards.io
-      route:
-        -
-          destination:
-            host: income-tax-service.saturn-green.svc.cluster.local
-            subset: OPS-335
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      match:
-        -
-          headers:
-            x-variant-id:
-              regex: (OPS-335|ops-335)
-      route:
-        -
-          destination:
-            host: income-tax-service.saturn-green.svc.cluster.local
-            subset: OPS-335
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-      route:
-        -
-          destination:
-            host: income-tax-service.saturn-green.svc.cluster.local
-            subset: master
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+      x-variant-id: OPS-335
+    match:
+    - authority:
+        regex: (OPS-335|ops-335).income-tax-service.st.wealthwizards.io
+    route:
+    - destination:
+        host: income-tax-service.saturn-green.svc.cluster.local
+        subset: OPS-335
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    match:
+    - headers:
+        x-variant-id:
+        regex: (OPS-335|ops-335)
+    route:
+    - destination:
+        host: income-tax-service.saturn-green.svc.cluster.local
+        subset: OPS-335
+  - appendHeaders:
+      x-envoy-max-retries: "5"
+      x-envoy-retry-on: connect-failure
+      x-envoy-upstream-rq-timeout-ms: "0"
+    route:
+    - destination:
+        host: income-tax-service.saturn-green.svc.cluster.local
+        subset: master
