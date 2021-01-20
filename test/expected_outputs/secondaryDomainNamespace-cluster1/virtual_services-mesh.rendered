@@ -1,0 +1,34 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: secondary-domains-mesh
+spec:
+  hosts:
+    - secondary-domains.secondaryDomainNamespace.svc.cluster.local
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          headers:
+            x-variant-id:
+              regex: (OPS-335|ops-335)
+      route:
+        -
+          destination:
+            host: secondary-domains.secondaryDomainNamespace.svc.cluster.local
+            subset: OPS-335
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      route:
+        -
+          destination:
+            host: secondary-domains.secondaryDomainNamespace.svc.cluster.local
+            subset: master
