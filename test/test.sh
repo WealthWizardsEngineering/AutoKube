@@ -53,7 +53,7 @@ function runTestsFor()
 RESULT=0
 
 echo "Waiting for test data to load..."
-sleep 5
+sleep 10
 
 runTestsFor "saturn-green-proof02" || RESULT=1
 
