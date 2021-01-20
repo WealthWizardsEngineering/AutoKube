@@ -5,6 +5,10 @@
   "multipleVersionsNamespace": {
     "DOMAIN": "multipleVersions.example.com"
   },
+  "secondaryDomainNamespace": {
+    "DOMAIN": "secondaryDomain.example.com",
+    "SECONDARY_DOMAIN": "alternate.example.com"
+  },
   "saturn-green": {
     "DOMAIN": "saturn-green.wealthwizards.io"
   }

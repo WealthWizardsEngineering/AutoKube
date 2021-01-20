@@ -1,0 +1,62 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: secondary-domains-ingress
+spec:
+  gateways:
+    - default-gateway
+  hosts:
+    - secondaryDomain.example.com
+    - "*.secondaryDomain.example.com"
+    - alternate.example.com
+    - "*.alternate.example.com"
+  http:
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+        x-variant-id: OPS-335
+      match:
+        -
+          authority:
+            regex: (OPS-335|ops-335).(secondaryDomain.example.com|alternate.example.com)
+          uri:
+            regex: ^/secondary-domains(/.*)?$
+      route:
+        -
+          destination:
+            host: secondary-domains.secondaryDomainNamespace.svc.cluster.local
+            subset: OPS-335
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/secondary-domains(/.*)?$
+          headers:
+            x-variant-id:
+              regex: (OPS-335|ops-335)
+      route:
+        -
+          destination:
+            host: secondary-domains.secondaryDomainNamespace.svc.cluster.local
+            subset: OPS-335
+    -
+      appendHeaders:
+        x-envoy-max-retries: "5"
+        x-envoy-retry-on: connect-failure
+        x-envoy-upstream-rq-timeout-ms: "0"
+      match:
+        -
+          uri:
+            regex: ^/secondary-domains(/.*)?$
+      route:
+        -
+          destination:
+            host: secondary-domains.secondaryDomainNamespace.svc.cluster.local
+            subset: master

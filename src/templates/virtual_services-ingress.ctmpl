@@ -21,6 +21,10 @@ spec:
   hosts:
     - {{ $publicDomain }}
     - "*.{{ $publicDomain }}"
+{{- if keyExists (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}
+    - {{ key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}
+    - "*.{{ key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}"
+{{- end }}
   http:
   {{- range $variants := $variants }}
   {{- $variant := .Key -}}
@@ -35,7 +39,11 @@ spec:
       match:
         -
           authority:
+{{- if keyExists (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}
+            regex: ({{ $variant }}|{{ $variant |toLower }}).({{ $publicDomain }}|{{ key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }})
+{{- else }}
             regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
+{{- end }}
       route:
         -
           destination:
@@ -66,14 +74,22 @@ spec:
       match:
         -
           authority:
+{{- if keyExists (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}
+            regex: ({{ $variant }}|{{ $variant |toLower }}).({{ $publicDomain }}|{{ key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }})
+{{- else }}
             regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
+{{- end }}
           uri:
             regex: ^{{ $contextRoute }}(/.*)?$
           {{- if $secondaryRoutes }}
           {{- range ($secondaryRoutes | split ",") }}
         -
           authority:
+{{- if keyExists (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}
+            regex: ({{ $variant }}|{{ $variant |toLower }}).({{ $publicDomain }}|{{ key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }})
+{{- else }}
             regex: ({{ $variant }}|{{ $variant |toLower }}).{{ $publicDomain }}
+{{- end }}
           uri:
             regex: ^{{ . }}(/.*)?$
           {{- end }}

@@ -2,9 +2,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: multiple-versions
+  name: secondary-domains
 spec:
-  host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
+  host: secondary-domains.secondaryDomainNamespace.svc.cluster.local
   subsets:
   - name: OPS-335
     labels:
@@ -12,10 +12,4 @@ spec:
   - name: master
     labels:
       version: master
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
 ---
