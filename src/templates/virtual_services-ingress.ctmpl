@@ -7,9 +7,16 @@
 {{- range $applicationName, $variants := tree (print "deployment_registry/" $namespace) | byKey }}
 {{- $configPath            := print "app_config_vars/" $tenant $applicationName ".json" -}}
 {{- if (keyOrDefault (print $configPath "/create_ingress") "true" | parseBool) }}
-{{- $publicDomain          := keyOrDefault (print $configPath "/" $namespace "/hostname") $defaultDomain -}}
 {{- $contextRoute          := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/CONTEXT_ROUTE") (keyOrDefault (print $configPath "/ConfigMap/CONTEXT_ROUTE") (print "/" $applicationName)) | regexReplaceAll "^/$" "" -}}
-{{- $secondaryRoutes := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/SECONDARY_CONTEXT_ROUTES") (keyOrDefault (print $configPath "/ConfigMap/SECONDARY_CONTEXT_ROUTES") "") -}}
+{{- $secondaryRoutes       := keyOrDefault (print $configPath "/" $namespace "/ConfigMap/SECONDARY_CONTEXT_ROUTES") (keyOrDefault (print $configPath "/ConfigMap/SECONDARY_CONTEXT_ROUTES") "") -}}
+{{- $publicDomain          := keyOrDefault (print $configPath "/" $namespace "/hostname") $defaultDomain -}}
+{{- scratch.MapSet (print $applicationName "-publicDomainList") $publicDomain $publicDomain -}}
+{{- scratch.MapSet (print $applicationName "-publicDomainList") (print "*." $publicDomain) (print "*." $publicDomain) -}}
+{{- if keyExists (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") -}}
+{{- $secondaryDomain       := key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") -}}
+{{- scratch.MapSet (print $applicationName "-publicDomainList") $secondaryDomain $secondaryDomain -}}
+{{- scratch.MapSet (print $applicationName "-publicDomainList") (print "*." $secondaryDomain) (print "*." $secondaryDomain) -}}
+{{- end -}}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -19,11 +26,8 @@ spec:
   gateways:
     - default-gateway
   hosts:
-    - {{ $publicDomain }}
-    - "*.{{ $publicDomain }}"
-{{- if keyExists (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}
-    - {{ key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}
-    - "*.{{ key (print "app_config_vars/global/config.json/" $namespace "/SECONDARY_DOMAIN") }}"
+{{- range $Key, $Value := scratch.Get (print $applicationName "-publicDomainList") }}
+    - "{{ $Key }}"
 {{- end }}
   http:
   {{- range $variants := $variants }}
