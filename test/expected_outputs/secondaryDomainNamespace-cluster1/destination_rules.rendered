@@ -2,6 +2,17 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
+  name: duplicate-secondary-domains
+spec:
+  host: duplicate-secondary-domains.secondaryDomainNamespace.svc.cluster.local
+  subsets:
+  - name: master
+    labels:
+      version: master
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
   name: secondary-domains
 spec:
   host: secondary-domains.secondaryDomainNamespace.svc.cluster.local

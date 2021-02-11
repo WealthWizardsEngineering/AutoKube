@@ -7,8 +7,8 @@ spec:
   gateways:
     - default-gateway
   hosts:
-    - multipleVersions.example.com
     - "*.multipleVersions.example.com"
+    - "multipleVersions.example.com"
   http:
     -
       appendHeaders:
