@@ -21,7 +21,6 @@ services:
     command: /usr/test/test.sh
     environment:
       - CONSUL_HTTP_ADDR=http://consul:8500
-      - CONTEXT=${CONTEXT}
     depends_on:
       - consul
       - init

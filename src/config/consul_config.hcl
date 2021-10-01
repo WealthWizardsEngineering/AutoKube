@@ -12,11 +12,6 @@ template {
 }
 
 template {
-  source = "templates/kubeconfig.ctmpl"
-  destination = "output/kubeconfig"
-}
-
-template {
   source = "templates/virtual_services-ingress.ctmpl"
   destination = "output/virtual_services-ingress.yaml"
   command = "./apply-changes.sh output/virtual_services-ingress.yaml"

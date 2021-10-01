@@ -1,4 +1,3 @@
-{{- $context      := env "CONTEXT" -}}
 {{- $namespace    := env "NAMESPACE" -}}
 {{- $namespaceKey := (print "deployment_registry/" $namespace) -}}
 {{- range $applicationName, $variants := tree $namespaceKey | byKey }}

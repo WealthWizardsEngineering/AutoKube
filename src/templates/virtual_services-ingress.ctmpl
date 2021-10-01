@@ -1,6 +1,5 @@
-{{- $context               := env "CONTEXT" -}}
 {{- $namespace             := env "NAMESPACE" -}}
-{{- $defaultDomain         := keyOrDefault (print "app_config_vars/global/config.json/" $context "/DOMAIN") (keyOrDefault (print "app_config_vars/global/config.json/" $namespace "/DOMAIN") "") -}}
+{{- $defaultDomain         := keyOrDefault (print "app_config_vars/global/config.json/" $namespace "/DOMAIN") "" -}}
 {{- with ($namespace | split "-") -}}
 {{- with index . 0 -}}
 {{- $tenant                := (print . "/") | replaceAll (print $namespace "/") "" -}}

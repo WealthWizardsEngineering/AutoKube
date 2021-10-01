@@ -15,37 +15,23 @@ function assertEquals()
     fi
 }
 
-function getNamespaceFrom()
-{
-    local CONTEXT=$1
-    local TENANT=$(echo ${CONTEXT} | rev | cut -f 3 -d \- | rev)
-    local STAGE=$(echo ${CONTEXT} | rev | cut -f 2 -d \- | rev)
-    if [[ -z "${TENANT}" ]]; then
-       echo "${STAGE}"
-    else
-       echo "${TENANT}-${STAGE}"
-    fi
- }
-
 function runTestsFor()
 {
-    export CONTEXT=$1
-    export NAMESPACE=$(getNamespaceFrom ${CONTEXT})
+    export NAMESPACE=$1
     export KUBERNETES_USERNAME=test
     export KUBERNETES_PASSWORD=mypassword
     export KUBERNETES_API=https://my-api-server
     RESULT=0
 
-    echo "Running tests for: ${CONTEXT}"
+    echo "Running tests for: ${NAMESPACE}"
 
     rm -rf /consul-template/output
 
     consul-template -config "config/consul_config.hcl" -once
 
-    assertEquals "Expected destination rules to be correct" /usr/test/expected_outputs/${CONTEXT}/destination_rules.rendered /consul-template/output/destination_rules.yaml || RESULT=1
-    assertEquals "Expected kubeconfig to be correct" /usr/test/expected_outputs/${CONTEXT}/kubeconfig.rendered /consul-template/output/kubeconfig || RESULT=1
-    assertEquals "Expected ingress virtual services to be correct" /usr/test/expected_outputs/${CONTEXT}/virtual_services-ingress.rendered /consul-template/output/virtual_services-ingress.yaml || RESULT=1
-    assertEquals "Expected mesh virtual services to be correct" /usr/test/expected_outputs/${CONTEXT}/virtual_services-mesh.rendered /consul-template/output/virtual_services-mesh.yaml || RESULT=1
+    assertEquals "Expected destination rules to be correct" /usr/test/expected_outputs/${NAMESPACE}/destination_rules.rendered /consul-template/output/destination_rules.yaml || RESULT=1
+    assertEquals "Expected ingress virtual services to be correct" /usr/test/expected_outputs/${NAMESPACE}/virtual_services-ingress.rendered /consul-template/output/virtual_services-ingress.yaml || RESULT=1
+    assertEquals "Expected mesh virtual services to be correct" /usr/test/expected_outputs/${NAMESPACE}/virtual_services-mesh.rendered /consul-template/output/virtual_services-mesh.yaml || RESULT=1
 
     return ${RESULT}
 }
@@ -55,13 +41,13 @@ RESULT=0
 echo "Waiting for test data to load..."
 sleep 10
 
-runTestsFor "saturn-green-proof02" || RESULT=1
+runTestsFor "saturn-green" || RESULT=1
 
-runTestsFor "green-proof02" || RESULT=1
+runTestsFor "green" || RESULT=1
 
-runTestsFor "multipleVersionsNamespace-cluster1" || RESULT=1
+runTestsFor "multipleVersionsNamespace" || RESULT=1
 
-runTestsFor "secondaryDomainNamespace-cluster1" || RESULT=1
+runTestsFor "secondaryDomainNamespace" || RESULT=1
 
 if [[ "$RESULT" -gt 0 ]]; then
   echo "There were test failures, inspect the details above for details"

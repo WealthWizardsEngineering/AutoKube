@@ -12,7 +12,9 @@ test:
 .PHONY: test
 
 tinker:
+	@ ./test/git2consul_config.sh
 	docker-compose -f test/docker-compose.yml run test /bin/sh
+	@ rm -f ./test/git2consul_config.json
 .PHONY: tinker
 
 clean-up:
