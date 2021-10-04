@@ -1,7 +1,7 @@
 consul {
   retry {
-    attempts = 5
-    backoff = "100ms"
+    attempts = 12
+    backoff = "1000ms"
   }
 }
 
