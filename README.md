@@ -11,11 +11,45 @@ AutoKube talks to the Kubernetes API server via kubectl using basic username/pas
 
 * CONSUL_HTTP_ADDR (optional)
 * CONSUL_HTTP_TOKEN
-* CONTEXT
-* KUBERNETES_API - e.g. https://api.my-custer
-* KUBERNETES_USERNAME
-* KUBERNETES_PASSWORD
-* KUBERNETES_CERT - the API certificate to ensure secure communication
+* NAMESPACE
+
+## Running in kubernetes
+
+Autokube is designed to run within Kubernetes, for this to work the following service account needs to be set up with 
+the given roles.
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: autokube
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    k8s-app: autokube
+  name: autokube
+rules:
+  - apiGroups: [ "*" ]
+    resources: [ "virtualservices", "destinationrules" ]
+    verbs: [ "get", "list", "watch", "create", "update", "patch", "delete" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: autokube
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: autokube
+subjects:
+  - kind: ServiceAccount
+    name: autokube
+    namespace: platform
+---
+
+```
 
 ## Testing
 
@@ -34,18 +68,17 @@ Test data is loaded before all tests, therefore is available for all tests.
 Note that the consul service may not be terminated between runs and therefore may contain out of date test data,
 particularly if data is removed from consul.json.
 
-### Test contexts
+### Test Namespaces
 
-Tests are run against a context/namespace, as this is how the tool is expected to be run.
+Tests are run against a namespace, as this is how the tool is expected to be run.
 
-A context is used to look up global configuration and is typically {namespace}-{clustername}, e.g. saturn-green-proof02,
-where saturn-green is the namespace.
+A namespace is used to look up global configuration.
 
-To add a new context create an directory in "test/expected_outputs" with the name of the new context and copy this
-line, replacing "saturn-green-proof02" with the the new context:
+To add a new namespace create an directory in "test/expected_outputs" with the name of the new namespace and copy this
+line, replacing "saturn-green" with the the new namespace:
 
 ```
-runTestsFor "saturn-green-proof02" && RESULT=1
+runTestsFor "saturn-green" && RESULT=1
 ```
 
 You will need to add appropriate test data to the test data file.

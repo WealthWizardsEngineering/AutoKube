@@ -1,7 +1,7 @@
 consul {
   retry {
-    attempts = 5
-    backoff = "100ms"
+    attempts = 12
+    backoff = "1000ms"
   }
 }
 
@@ -9,11 +9,6 @@ template {
   source = "templates/destination_rules.ctmpl"
   destination = "output/destination_rules.yaml"
   command = "./apply-changes.sh output/destination_rules.yaml"
-}
-
-template {
-  source = "templates/kubeconfig.ctmpl"
-  destination = "output/kubeconfig"
 }
 
 template {
