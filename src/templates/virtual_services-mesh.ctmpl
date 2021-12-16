@@ -17,11 +17,12 @@ spec:
   http:
   {{- range $variants := $variants }}
   {{- if and (ne .Key "master") (not (keyExists (print $configPath "/" $namespace "/versions/" .Key))) }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           headers:
@@ -35,11 +36,12 @@ spec:
   {{- end }}
   {{- end }}
   {{- range tree (print $configPath "/" $namespace "/versions/") }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -50,11 +52,12 @@ spec:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
             subset: {{ .Key }}
   {{- end }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       route:
         -
           destination:

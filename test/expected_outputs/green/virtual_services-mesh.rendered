@@ -7,11 +7,12 @@ spec:
   hosts:
     - docx-generator.green.svc.cluster.local
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       route:
         -
           destination:
@@ -26,11 +27,12 @@ spec:
   hosts:
     - income-tax-service.green.svc.cluster.local
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           headers:
@@ -41,11 +43,12 @@ spec:
           destination:
             host: income-tax-service.green.svc.cluster.local
             subset: OPS-3353
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       route:
         -
           destination:

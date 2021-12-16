@@ -10,11 +10,12 @@ spec:
     - "*.saturn-green.wealthwizards.io"
     - "saturn-green.wealthwizards.io"
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -36,12 +37,13 @@ spec:
     - "*.saturn-green.wealthwizards.io"
     - "saturn-green.wealthwizards.io"
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: OPS-3353
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
+            x-variant-id: OPS-3353
       match:
         -
           authority:
@@ -63,11 +65,12 @@ spec:
           destination:
             host: fact-find-ui.saturn-green.svc.cluster.local
             subset: OPS-3353
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -92,11 +95,12 @@ spec:
           destination:
             host: fact-find-ui.saturn-green.svc.cluster.local
             subset: OPS-3353
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -124,12 +128,13 @@ spec:
     - "*.income-tax-service.st.wealthwizards.io"
     - "income-tax-service.st.wealthwizards.io"
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: OPS-335
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
+            x-variant-id: OPS-335
       match:
         -
           authority:
@@ -139,11 +144,12 @@ spec:
           destination:
             host: income-tax-service.saturn-green.svc.cluster.local
             subset: OPS-335
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           headers:
@@ -154,11 +160,12 @@ spec:
           destination:
             host: income-tax-service.saturn-green.svc.cluster.local
             subset: OPS-335
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       route:
         -
           destination:

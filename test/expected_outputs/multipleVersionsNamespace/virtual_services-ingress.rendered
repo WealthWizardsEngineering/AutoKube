@@ -10,12 +10,13 @@ spec:
     - "*.multipleVersions.example.com"
     - "multipleVersions.example.com"
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: OPS-335
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
+            x-variant-id: OPS-335
       match:
         -
           authority:
@@ -27,11 +28,12 @@ spec:
           destination:
             host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
             subset: OPS-335
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -44,11 +46,12 @@ spec:
           destination:
             host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
             subset: OPS-335
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -58,11 +61,12 @@ spec:
           destination:
             host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
             subset: v1
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -72,11 +76,12 @@ spec:
           destination:
             host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
             subset: v2
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:

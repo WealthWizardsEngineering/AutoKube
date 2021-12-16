@@ -7,11 +7,12 @@ spec:
   hosts:
     - multiple-versions.multipleVersionsNamespace.svc.cluster.local
   http:
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           headers:
@@ -22,11 +23,12 @@ spec:
           destination:
             host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
             subset: OPS-335
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -36,11 +38,12 @@ spec:
           destination:
             host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
             subset: v1
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -50,11 +53,12 @@ spec:
           destination:
             host: multiple-versions.multipleVersionsNamespace.svc.cluster.local
             subset: v2
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       route:
         -
           destination:
