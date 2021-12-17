@@ -33,12 +33,13 @@ spec:
   {{- $variant := .Key -}}
   {{- if and (ne $variant "master") (not (keyExists (print $configPath "/" $namespace "/versions/" $variant))) }}
   {{- if eq $contextRoute "" }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: {{ $variant }}
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
+            x-variant-id: {{ $variant }}
       match:
         -
           authority:
@@ -52,11 +53,12 @@ spec:
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
             subset: {{ $variant }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           headers:
@@ -68,12 +70,13 @@ spec:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
             subset: {{ $variant }}
   {{- else }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
-        x-variant-id: {{ $variant }}
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
+            x-variant-id: {{ $variant }}
       match:
         -
           authority:
@@ -102,11 +105,12 @@ spec:
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
             subset: {{ $variant }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -133,11 +137,12 @@ spec:
   {{- end }}
   {{- end }}
   {{- range tree (print $configPath "/" $namespace "/versions/") }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
@@ -149,22 +154,24 @@ spec:
             subset: {{ .Key }}
   {{- end }}
   {{- if eq $contextRoute "" }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       route:
         -
           destination:
             host: {{ $applicationName }}.{{ $namespace }}.svc.cluster.local
             subset: master
   {{- else }}
-    -
-      appendHeaders:
-        x-envoy-max-retries: "5"
-        x-envoy-retry-on: connect-failure
-        x-envoy-upstream-rq-timeout-ms: "0"
+    - headers:
+        request:
+          set:
+            x-envoy-max-retries: "5"
+            x-envoy-retry-on: connect-failure
+            x-envoy-upstream-rq-timeout-ms: "0"
       match:
         -
           uri:
