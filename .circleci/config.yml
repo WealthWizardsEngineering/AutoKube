@@ -1,14 +1,16 @@
-version: 2
+version: 2.1
 jobs:
   test:
-    machine: true
+    machine:
+      image: ubuntu-2004:202201-02
     steps:
       - checkout
       - run:
           name: tests
           command: make test
   buildAndDeploy:
-    machine: true
+    machine:
+      image: ubuntu-2004:202201-02
     steps:
       - add_ssh_keys
       - checkout
@@ -22,7 +24,8 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS quay.io
             docker push quay.io/wealthwizards/autokube
   buildDockerImage:
-    machine: true
+    machine:
+      image: ubuntu-2004:202201-02
     steps:
       - add_ssh_keys
       - checkout
